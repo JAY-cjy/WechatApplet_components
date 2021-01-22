@@ -9,13 +9,7 @@
 </template>
 
 <script>
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex';
-
 	export default {
-		// name: "add",
 		//属性
 		props: {
 			imgs: '',
@@ -25,40 +19,11 @@
 			width: '',
 			height: '',
 		},
-		created() {
-			// console.log('add-created');
-			// console.log('height=', this.height)
-		},
 		data() {
 			return {}
 		},
 		onLoad() {},
-		watch: {
-			isCanUse(newVal, oldVal) { //对引用类型的值无效
-				// console.info('value changed 1', newVal)
-			},
-
-			isPhone(newVal, oldVal) { //对引用类型的值无效
-				// console.info('value changed 1', newVal)
-			},
-
-			msg: {
-				handler(newVal, oldVal) {
-					console.info('value changed 2', newVal)
-				},
-				deep: true
-			}
-		},
 		methods: {
-			...mapMutations(['changeVuexState']),
-			// 改变全局变量
-			changeGlobalData: function(key, value) {
-				this.changeVuexState({
-					key: key,
-					value: value
-				})
-			},
-
 			onGotUserInfo(e) {
 				console.log(e.detail.userInfo);
 				if (e.detail.userInfo) {
@@ -75,15 +40,16 @@
 
 				let sessionKey = uni.getStorageSync('session_key');
 				let openId = uni.getStorageSync('openid');
+				
 				// console.log(e.detail.iv, e.detail.encryptedData)
-
 				// if (e.detail.errMsg == 'getPhoneNumber:user deny') { //用户点击拒绝
 				// } else { //允许授权执行跳转
 				// }
+				
 				// 是否授权
 				if (e.detail.errMsg == 'getPhoneNumber:ok') {
 					uni.request({
-						url: that.url + '/mobile/member/decryptUserInfo', //接口地址
+						url: that.url + '/mobile/member/decryptUserInfo',
 						data: {
 							encryptedData: e.detail.encryptedData,
 							sessionKey: sessionKey,
@@ -97,7 +63,7 @@
 
 							let phone = JSON.parse(res.data.msg).phoneNumber
 							uni.request({
-								url: that.url + '/mobile/member/mallMobileLogin', //接口地址
+								url: that.url + '/mobile/member/mallMobileLogin',
 								data: {
 									openid: openId,
 									phone: phone,
